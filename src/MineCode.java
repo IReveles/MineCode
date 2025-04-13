@@ -52,16 +52,29 @@ public class MineCode {
     }
 
     private static String eval(String expr) {
-        for (String key : variables.keySet()) {
-            expr = expr.replace(key, variables.get(key));
+        for (Map.Entry<String, String> entry : variables.entrySet()) {
+            expr = expr.replaceAll("\\b" + entry.getKey() + "\\b", entry.getValue());
         }
-
+    
         try {
-            return Integer.toString((int) new ScriptEngineManager()
-                    .getEngineByName("JavaScript")
-                    .eval(expr));
+            String[] tokens = expr.split(" ");
+            int left = Integer.parseInt(tokens[0]);
+            String op = tokens[1];
+            int right = Integer.parseInt(tokens[2]);
+    
+            int result = switch (op) {
+                case "+" -> left + right;
+                case "-" -> left - right;
+                case "*" -> left * right;
+                case "/" -> right != 0 ? left / right : 0;
+                default -> throw new IllegalArgumentException("Unknown operator: " + op);
+            };
+    
+            return Integer.toString(result);
         } catch (Exception e) {
+            System.out.println("⚠️ Error evaluating: " + expr);
             return expr;
         }
     }
+    
 }

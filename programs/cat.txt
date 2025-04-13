@@ -1,5 +1,2 @@
-# Ask the user to type something
 CRAFT input
-
-# Output what they typed
 PLACE input
