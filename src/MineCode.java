@@ -1,8 +1,6 @@
 import java.io.*;
 import java.util.*;
 import java.nio.file.Files;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptEngine;
 
 public class MineCode {
     static HashMap<String, String> variables = new HashMap<>();
@@ -10,7 +8,7 @@ public class MineCode {
 
     public static void main(String[] args) throws Exception {
         if (args.length == 0) {
-            System.out.println("Usage: java MineCode <program.txt>");
+            System.out.println("Usage: java MineCode <program.mc>");
             return;
         }
         runProgram(args[0]);
@@ -18,8 +16,8 @@ public class MineCode {
 
     public static void runProgram(String filename) throws Exception {
         List<String> lines = new ArrayList<>(Files.readAllLines(new File(filename).toPath()));
-        for (int i = 0; i < lines.size(); i++) {
-            String line = lines.get(i).trim();
+        for (String line : lines) {
+            line = line.trim();
             if (line.isEmpty() || line.startsWith("#")) continue;
 
             if (line.startsWith("PLACE ")) {
@@ -29,11 +27,31 @@ public class MineCode {
                 String var = line.substring(6).trim();
                 System.out.print("> ");
                 variables.put(var, scanner.nextLine());
-            } else if (line.startsWith("MINE ")) {
-                String[] parts = line.substring(5).split("=");
-                String var = parts[0].trim();
-                String expr = parts[1].trim();
-                variables.put(var, eval(expr));
+            } else if (line.startsWith("SMELT ")) {
+                String[] parts = line.split(" ");
+                int a = Integer.parseInt(variables.get(parts[1]));
+                int b = Integer.parseInt(variables.get(parts[2]));
+                String dest = parts[4];
+                variables.put(dest, Integer.toString(a + b));
+            } else if (line.startsWith("COOK ")) {
+                String[] parts = line.split(" ");
+                int a = Integer.parseInt(variables.get(parts[1]));
+                int b = Integer.parseInt(variables.get(parts[2]));
+                String dest = parts[4];
+                variables.put(dest, Integer.toString(a - b));
+            } else if (line.startsWith("ENCHANT ")) {
+                String[] parts = line.split(" ");
+                int a = Integer.parseInt(variables.get(parts[1]));
+                int b = Integer.parseInt(variables.get(parts[2]));
+                String dest = parts[4];
+                variables.put(dest, Integer.toString(a * b));
+            } else if (line.startsWith("ANVIL ")) {
+                String[] parts = line.split(" ");
+                int a = Integer.parseInt(variables.get(parts[1]));
+                int b = Integer.parseInt(variables.get(parts[2]));
+                String dest = parts[4];
+                int result = b != 0 ? a / b : 0;
+                variables.put(dest, Integer.toString(result));
             } else if (line.startsWith("OVERWORLD ")) {
                 String[] parts = line.split(" ");
                 String src = parts[1];
@@ -50,31 +68,4 @@ public class MineCode {
             }
         }
     }
-
-    private static String eval(String expr) {
-        for (Map.Entry<String, String> entry : variables.entrySet()) {
-            expr = expr.replaceAll("\\b" + entry.getKey() + "\\b", entry.getValue());
-        }
-    
-        try {
-            String[] tokens = expr.split(" ");
-            int left = Integer.parseInt(tokens[0]);
-            String op = tokens[1];
-            int right = Integer.parseInt(tokens[2]);
-    
-            int result = switch (op) {
-                case "+" -> left + right;
-                case "-" -> left - right;
-                case "*" -> left * right;
-                case "/" -> right != 0 ? left / right : 0;
-                default -> throw new IllegalArgumentException("Unknown operator: " + op);
-            };
-    
-            return Integer.toString(result);
-        } catch (Exception e) {
-            System.out.println("⚠️ Error evaluating: " + expr);
-            return expr;
-        }
-    }
-    
 }

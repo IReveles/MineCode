@@ -1,4 +1,4 @@
 CRAFT a
 CRAFT b
-MINE result = a * b
-PLACE result
+ENCHANT a b INTO c
+PLACE c

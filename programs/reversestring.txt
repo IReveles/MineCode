@@ -1,0 +1,4 @@
+PLACE Insert the string you want to reverse
+CRAFT string
+OVERWORLD string NETHER reverse
+PLACE reverse
