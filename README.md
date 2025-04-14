@@ -11,7 +11,7 @@ MineCode is a simple programming language with minecraft keywords.
 | FURNACE x AND y INTO z | Multiplies x and y, stores it in z |
 | ANVIL x AND y INTO z | Divides x and y, stores it in z |
 | OVERWORLD x NETHER y | Reverses variable x and stores it in variable y |
-| BUILD x n TO y | Repeats input/variable x a number(n) of times and saves it in variable y |
+| BUILD x n INTO y | Repeats input/variable x a number(n) of times and saves it in variable y |
 
 
 
