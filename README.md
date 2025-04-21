@@ -9,7 +9,7 @@ Please respect the spaces between all variables and keywords for syntax.
 | PLACE x | Prints a variable/message |
 | CRAFT x | It asks for user input saving it in x |
 | SMELT x y INTO z | Adds x and y, stores it in z |
-| REDSTONE x y INTO z | Subtracts x and y, stores it in z |
+| COOK x y INTO z | Subtracts x and y, stores it in z |
 | ENCHANT x y INTO z | Multiplies x and y, stores it in z |
 | ANVIL x y INTO z | Divides x and y, stores it in z |
 | OVERWORLD x NETHER y | Reverses variable x and stores it in variable y |
