@@ -2,5 +2,5 @@ PLACE Insert the character you want to repeat
 CRAFT x
 PLACE Insert the number of times you want to repeat the character
 CRAFT y
-BUILD x y INTO result
+BUILD asdf y INTO result
 PLACE result
